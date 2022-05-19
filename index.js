@@ -38,6 +38,13 @@ async function run() {
             res.send(result)
         })
 
+        app.delete('/items/:id', async (req, res) => {
+            const id = req.params.id
+            const query = { _id: ObjectId(id) }
+            const result = await jerseyCollection.deleteOne(query)
+            res.send(result)
+        })
+
 
         app.post('/items', async (req, res) => {
             const newItem = req.body
