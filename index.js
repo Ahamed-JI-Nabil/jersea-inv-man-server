@@ -46,6 +46,21 @@ async function run() {
         })
 
 
+        app.put('/items/:id', async (req, res) => {
+            const id = req.params.id
+            const updatedItem = req.body
+            const query = { _id: ObjectId(id) }
+            const options = { upsert: true }
+            const updatedDoc = {
+                $ser: {
+                    quantity: updatedItem.quantity
+                }
+            }
+            const result = await jerseyCollection.updateOne(query, updatedDoc, options)
+            res.send(result)
+
+        })
+
         app.post('/items', async (req, res) => {
             const newItem = req.body
             console.log(newItem);
