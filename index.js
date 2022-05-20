@@ -22,6 +22,8 @@ async function run() {
         await client.connect()
         const jerseyCollection = client.db("jersea").collection("inventory-man")
 
+        const clubsCollection = client.db("jersea").collection("clubs")
+
 
         app.get('/items', async (req, res) => {
             const query = {}
@@ -52,7 +54,7 @@ async function run() {
             const query = { _id: ObjectId(id) }
             const options = { upsert: true }
             const updatedDoc = {
-                $ser: {
+                $set: {
                     quantity: updatedItem.quantity
                 }
             }
@@ -63,10 +65,19 @@ async function run() {
 
         app.post('/items', async (req, res) => {
             const newItem = req.body
-            console.log(newItem);
             const result = await jerseyCollection.insertOne(newItem)
             res.send(result)
         })
+
+
+        app.get('/clubs', async (req, res) => {
+            const query = {}
+            const cursor = clubsCollection.find(query)
+            const clubs = await cursor.toArray()
+            res.send(clubs)
+        })
+
+
     }
     finally {
 
