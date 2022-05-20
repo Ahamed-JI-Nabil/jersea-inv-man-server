@@ -23,6 +23,7 @@ async function run() {
         const jerseyCollection = client.db("jersea").collection("inventory-man")
 
         const clubsCollection = client.db("jersea").collection("clubs")
+        const accessoriesCollection = client.db("jersea").collection("accessories")
 
 
         app.get('/items', async (req, res) => {
@@ -75,6 +76,14 @@ async function run() {
             const cursor = clubsCollection.find(query)
             const clubs = await cursor.toArray()
             res.send(clubs)
+        })
+
+
+        app.get('/accessories', async (req, res) => {
+            const query = {}
+            const cursor = accessoriesCollection.find(query)
+            const accessories = await cursor.toArray()
+            res.send(accessories)
         })
 
 
